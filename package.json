@@ -1,6 +1,7 @@
 {
-  "name": "level-append-only-log",
+  "name": "level-simple-log",
   "version": "0.0.0",
+  "description": "store a simple log in a LevelUP",
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
   "dependencies": {
     "async.queue": "^0.5.2",
@@ -17,7 +18,7 @@
     "tape": "^4.6.0"
   },
   "license": "MIT",
-  "repository": "kemitchell/level-append-only-log.js",
+  "repository": "kemitchell/level-simple-log.js",
   "scripts": {
     "lint": "standard",
     "test": "node test.js"

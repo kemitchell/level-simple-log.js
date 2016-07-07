@@ -5,11 +5,11 @@ var lexint = require('lexicographic-integer')
 var pump = require('pump')
 var through = require('through2')
 
-module.exports = AppendOnlyLog
+module.exports = SimpleLog
 
-function AppendOnlyLog (levelup) {
-  if (!(this instanceof AppendOnlyLog)) {
-    return new AppendOnlyLog(levelup)
+function SimpleLog (levelup) {
+  if (!(this instanceof SimpleLog)) {
+    return new SimpleLog(levelup)
   }
   var self = this
   self._levelup = levelup
@@ -32,23 +32,23 @@ function AppendOnlyLog (levelup) {
   })
 }
 
-AppendOnlyLog.prototype.get = function (index, callback) {
+SimpleLog.prototype.get = function (index, callback) {
   this._levelup.get(indexToKey(index), callback)
 }
 
-AppendOnlyLog.prototype.set = function (index, entry, callback) {
+SimpleLog.prototype.set = function (index, entry, callback) {
   this._levelup.put(indexToKey(index), entry, callback)
 }
 
-AppendOnlyLog.prototype.drop = function (index, callback) {
+SimpleLog.prototype.drop = function (index, callback) {
   this._levelup.del(indexToKey(index), callback)
 }
 
-AppendOnlyLog.prototype.append = function (entry, callback) {
+SimpleLog.prototype.append = function (entry, callback) {
   this._appendQueue.push({entry: entry}, callback || noop)
 }
 
-AppendOnlyLog.prototype.head = function (callback) {
+SimpleLog.prototype.head = function (callback) {
   callback = dezalgo(callback)
   if (this._head !== false) callback(null, this._head)
   else {
@@ -71,14 +71,14 @@ AppendOnlyLog.prototype.head = function (callback) {
   }
 }
 
-AppendOnlyLog.prototype.createStream = function (have) {
+SimpleLog.prototype.createStream = function (have) {
   return pump(
     this._levelup.createReadStream({gt: indexToKey(have || 0)}),
     through.obj(recordToEntry)
   )
 }
 
-AppendOnlyLog.prototype.createReverseStream = function (have) {
+SimpleLog.prototype.createReverseStream = function (have) {
   return pump(
     this._levelup.createReadStream({
       gt: indexToKey(have || 0),

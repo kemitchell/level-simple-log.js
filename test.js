@@ -1,4 +1,4 @@
-var AppendOnlyLog = require('./')
+var SimpleLog = require('./')
 var levelup = require('levelup')
 var memdown = require('memdown')
 var collect = require('stream-collector')
@@ -144,7 +144,7 @@ tape('reverse stream to index', function (test) {
 
 function testLog () {
   memdown.clearGlobalStore()
-  return new AppendOnlyLog(levelup('', {
+  return new SimpleLog(levelup('', {
     db: memdown,
     valueEncoding: 'json'
   }))
