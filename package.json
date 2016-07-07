@@ -1,0 +1,25 @@
+{
+  "name": "level-append-only-log",
+  "version": "0.0.0",
+  "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
+  "dependencies": {
+    "async.queue": "^0.5.2",
+    "dezalgo": "^1.0.3",
+    "lexicographic-integer": "^1.1.0",
+    "pump": "^1.0.0",
+    "stream-collector": "^1.0.1",
+    "through2": "^2.0.1"
+  },
+  "devDependencies": {
+    "levelup": "^1.3.2",
+    "memdown": "^1.2.0",
+    "standard": "^7.1.2",
+    "tape": "^4.6.0"
+  },
+  "license": "MIT",
+  "repository": "kemitchell/level-append-only-log.js",
+  "scripts": {
+    "lint": "standard",
+    "test": "node test.js"
+  }
+}
