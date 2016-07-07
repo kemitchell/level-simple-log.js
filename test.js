@@ -53,7 +53,7 @@ tape('set', function (test) {
   })
 })
 
-tape('delete', function (test) {
+tape('drop', function (test) {
   var log = testLog()
   log.append(a, function () {
     log.append(b, function () {
