@@ -1,0 +1,5 @@
+---
+language: "node_js"
+node_js: [ "4", "5", "6", "node" ]
+sudo: false
+scripts: [ "npm test", "npm run lint" ]
