@@ -1,5 +1,6 @@
 var asyncQueue = require('async.queue')
 var collect = require('stream-collector')
+var defined = require('defined')
 var dezalgo = require('dezalgo')
 var lexint = require('lexicographic-integer')
 var pump = require('pump')
@@ -71,18 +72,24 @@ SimpleLog.prototype.head = function (callback) {
   }
 }
 
-SimpleLog.prototype.createStream = function (have) {
+SimpleLog.prototype.createStream = function (options) {
+  options = options || {}
   return pump(
-    this._levelup.createReadStream({gt: indexToKey(have || 0)}),
+    this._levelup.createReadStream({
+      gt: indexToKey(defined(options.from, 0)),
+      limit: defined(options.limit, -1)
+    }),
     through.obj(recordToEntry)
   )
 }
 
-SimpleLog.prototype.createReverseStream = function (have) {
+SimpleLog.prototype.createReverseStream = function (options) {
+  options = options || {}
   return pump(
     this._levelup.createReadStream({
-      gt: indexToKey(have || 0),
-      reverse: true
+      gt: indexToKey(defined(options.from, 0)),
+      reverse: true,
+      limit: defined(options.limit, -1)
     }),
     through.obj(recordToEntry)
   )

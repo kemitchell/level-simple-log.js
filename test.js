@@ -95,11 +95,30 @@ tape('stream to index', function (test) {
   log.append(a, function () {
     log.append(b, function () {
       log.append(c, function () {
-        collect(log.createStream(1), function (error, entries) {
+        collect(log.createStream({from: 1}), function (error, entries) {
           test.ifError(error, 'no error')
           test.deepEqual(
             entries,
             [{index: 2, entry: b}, {index: 3, entry: c}]
+          )
+          test.end()
+        })
+      })
+    })
+  })
+})
+
+tape('stream with limit', function (test) {
+  var log = testLog()
+  log.append(a, function () {
+    log.append(b, function () {
+      log.append(c, function () {
+        var options = {from: 1, limit: 1}
+        collect(log.createStream(options), function (error, entries) {
+          test.ifError(error, 'no error')
+          test.deepEqual(
+            entries,
+            [{index: 2, entry: b}]
           )
           test.end()
         })
@@ -124,19 +143,42 @@ tape('reverse stream', function (test) {
   })
 })
 
+tape('reverse stream with limit', function (test) {
+  var log = testLog()
+  log.append(a, function () {
+    log.append(b, function () {
+      collect(
+        log.createReverseStream({from: 0, limit: 1}),
+        function (error, entries) {
+          test.ifError(error, 'no error')
+          test.deepEqual(
+            entries,
+            [{index: 2, entry: b}]
+          )
+          test.end()
+        }
+      )
+    })
+  })
+})
+
 tape('reverse stream to index', function (test) {
   var log = testLog()
   log.append(a, function () {
     log.append(b, function () {
       log.append(c, function () {
-        collect(log.createReverseStream(1), function (error, entries) {
-          test.ifError(error, 'no error')
-          test.deepEqual(
-            entries,
-            [{index: 3, entry: c}, {index: 2, entry: b}]
-          )
-          test.end()
-        })
+        var options = {from: 1}
+        collect(
+          log.createReverseStream(options),
+          function (error, entries) {
+            test.ifError(error, 'no error')
+            test.deepEqual(
+              entries,
+              [{index: 3, entry: c}, {index: 2, entry: b}]
+            )
+            test.end()
+          }
+        )
       })
     })
   })
