@@ -1,7 +1,8 @@
 var SimpleLog = require('./')
+var collect = require('stream-collector')
+var encode = require('encoding-down')
 var levelup = require('levelup')
 var memdown = require('memdown')
-var collect = require('stream-collector')
 var tape = require('tape')
 
 var a = {a: 1}
@@ -185,9 +186,7 @@ tape('reverse stream to index', function (test) {
 })
 
 function testLog () {
-  memdown.clearGlobalStore()
-  return new SimpleLog(levelup('', {
-    db: memdown,
-    valueEncoding: 'json'
-  }))
+  return new SimpleLog(
+    levelup(encode(memdown(), { valueEncoding: 'json' }))
+  )
 }
