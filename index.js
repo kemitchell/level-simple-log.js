@@ -18,17 +18,13 @@ function SimpleLog (levelup) {
   self._appendQueue = asyncQueue(function (task, done) {
     var entry = task.entry
     self.head(function (error, currentHead) {
-      if (error) done(error)
-      else {
-        var newHead = currentHead + 1
-        self.set(newHead, entry, function (error) {
-          if (error) done(error)
-          else {
-            self._head = newHead
-            done(null, newHead)
-          }
-        })
-      }
+      if (error) return done(error)
+      var newHead = currentHead + 1
+      self.set(newHead, entry, function (error) {
+        if (error) return done(error)
+        self._head = newHead
+        done(null, newHead)
+      })
     })
   })
 }
@@ -59,15 +55,13 @@ SimpleLog.prototype.head = function (callback) {
       limit: 1
     })
     collect(keyStream, function (error, keys) {
-      if (error) callback(error)
-      else
+      if (error) return callback(error)
       if (keys.length === 0) {
         self._head = 0
-        callback(null, 0)
-      } else {
-        var unpacked = lexint.unpack(keys[0], 'hex')
-        callback(null, unpacked)
+        return callback(null, 0)
       }
+      var unpacked = lexint.unpack(keys[0], 'hex')
+      return callback(null, unpacked)
     })
   }
 }
