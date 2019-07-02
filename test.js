@@ -5,9 +5,9 @@ var levelup = require('levelup')
 var memdown = require('memdown')
 var tape = require('tape')
 
-var a = {a: 1}
-var b = {b: 2}
-var c = {c: 3}
+var a = { a: 1 }
+var b = { b: 2 }
+var c = { c: 3 }
 
 tape('append', function (test) {
   var log = testLog()
@@ -65,7 +65,7 @@ tape('drop', function (test) {
             test.ifError(error, 'no error')
             test.deepEqual(
               entries,
-              [{index: 1, entry: a}, {index: 3, entry: c}]
+              [{ index: 1, entry: a }, { index: 3, entry: c }]
             )
             test.end()
           })
@@ -83,7 +83,7 @@ tape('stream', function (test) {
         test.ifError(error, 'no error')
         test.deepEqual(
           entries,
-          [{index: 1, entry: a}, {index: 2, entry: b}]
+          [{ index: 1, entry: a }, { index: 2, entry: b }]
         )
         test.end()
       })
@@ -96,11 +96,11 @@ tape('stream to index', function (test) {
   log.append(a, function () {
     log.append(b, function () {
       log.append(c, function () {
-        collect(log.createStream({from: 1}), function (error, entries) {
+        collect(log.createStream({ from: 1 }), function (error, entries) {
           test.ifError(error, 'no error')
           test.deepEqual(
             entries,
-            [{index: 2, entry: b}, {index: 3, entry: c}]
+            [{ index: 2, entry: b }, { index: 3, entry: c }]
           )
           test.end()
         })
@@ -114,12 +114,12 @@ tape('stream with limit', function (test) {
   log.append(a, function () {
     log.append(b, function () {
       log.append(c, function () {
-        var options = {from: 1, limit: 1}
+        var options = { from: 1, limit: 1 }
         collect(log.createStream(options), function (error, entries) {
           test.ifError(error, 'no error')
           test.deepEqual(
             entries,
-            [{index: 2, entry: b}]
+            [{ index: 2, entry: b }]
           )
           test.end()
         })
@@ -136,7 +136,7 @@ tape('reverse stream', function (test) {
         test.ifError(error, 'no error')
         test.deepEqual(
           entries,
-          [{index: 2, entry: b}, {index: 1, entry: a}]
+          [{ index: 2, entry: b }, { index: 1, entry: a }]
         )
         test.end()
       })
@@ -149,12 +149,12 @@ tape('reverse stream with limit', function (test) {
   log.append(a, function () {
     log.append(b, function () {
       collect(
-        log.createReverseStream({from: 0, limit: 1}),
+        log.createReverseStream({ from: 0, limit: 1 }),
         function (error, entries) {
           test.ifError(error, 'no error')
           test.deepEqual(
             entries,
-            [{index: 2, entry: b}]
+            [{ index: 2, entry: b }]
           )
           test.end()
         }
@@ -168,14 +168,14 @@ tape('reverse stream to index', function (test) {
   log.append(a, function () {
     log.append(b, function () {
       log.append(c, function () {
-        var options = {from: 1}
+        var options = { from: 1 }
         collect(
           log.createReverseStream(options),
           function (error, entries) {
             test.ifError(error, 'no error')
             test.deepEqual(
               entries,
-              [{index: 3, entry: c}, {index: 2, entry: b}]
+              [{ index: 3, entry: c }, { index: 2, entry: b }]
             )
             test.end()
           }

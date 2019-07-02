@@ -46,7 +46,7 @@ SimpleLog.prototype.drop = function (index, callback) {
 }
 
 SimpleLog.prototype.append = function (entry, callback) {
-  this._appendQueue.push({entry: entry}, callback || noop)
+  this._appendQueue.push({ entry: entry }, callback || noop)
 }
 
 SimpleLog.prototype.head = function (callback) {
@@ -61,13 +61,13 @@ SimpleLog.prototype.head = function (callback) {
     collect(keyStream, function (error, keys) {
       if (error) callback(error)
       else
-        if (keys.length === 0) {
-          self._head = 0
-          callback(null, 0)
-        } else {
-          var unpacked = lexint.unpack(keys[0], 'hex')
-          callback(null, unpacked)
-        }
+      if (keys.length === 0) {
+        self._head = 0
+        callback(null, 0)
+      } else {
+        var unpacked = lexint.unpack(keys[0], 'hex')
+        callback(null, unpacked)
+      }
     })
   }
 }
