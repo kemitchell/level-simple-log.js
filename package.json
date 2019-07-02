@@ -8,7 +8,7 @@
     "defined": "^1.0.0",
     "dezalgo": "^1.0.3",
     "lexicographic-integer": "^1.1.0",
-    "pump": "^1.0.0",
+    "pump": "^3.0.0",
     "stream-collector": "^1.0.1",
     "through2": "^2.0.1"
   },
